@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台灣心靈魔術與療癒學會</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #8e2de2;
+            --secondary-purple: #4a00e0;
+            --glow-color: rgba(195, 122, 255, 0.7);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #090a0f;
+            background-image: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            font-family: 'Noto Sans TC', sans-serif;
+            color: #e0e0e0;
+        }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .text-glow { text-shadow: 0 0 8px var(--glow-color), 0 0 16px var(--glow-color); }
+        .card {
+            background-color: rgba(18, 18, 42, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 35px rgba(138, 43, 226, 0.5);
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, var(--secondary-purple), var(--primary-purple));
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px var(--glow-color), 0 0 10px #fff;
+        }
+        /* Navigation Bar background on scroll */
+        .scrolled {
+            background-color: rgba(9, 10, 15, 0.8);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <a href="#hero" class="font-cinzel text-xl font-bold text-glow">TMHA</a>
+            <nav class="hidden md:flex space-x-8 text-lg">
+                <a href="#about" class="hover:text-purple-300 transition-colors">學會介紹</a>
+                <a href="#benefits" class="hover:text-purple-300 transition-colors">會員福利</a>
+                <a href="#features" class="hover:text-purple-300 transition-colors">核心功能</a>
+                <a href="#join" class="hover:text-purple-300 transition-colors">報名方式</a>
+            </nav>
+            
+            <!-- ⭐ 會員登入區塊 -->
+            <div class="hidden md:flex items-center space-x-4">
+                <!-- Logged out state -->
+                <button id="login-btn" class="btn-primary text-white font-bold py-2 px-6 rounded-lg">
+                    會員登入
+                </button>
+                <!-- Logged in state -->
+                <div id="user-info" class="hidden items-center space-x-3">
+                    <img id="user-avatar" class="w-10 h-10 rounded-full border-2 border-purple-400" src="" alt="User Avatar">
+                    <span id="user-name" class="text-white font-medium"></span>
+                    <button id="logout-btn" class="text-gray-400 hover:text-white transition-colors" title="登出">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black/50 backdrop-blur-lg">
+            <a href="#about" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">學會介紹</a>
+            <a href="#benefits" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">會員福利</a>
+            <a href="#features" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">核心功能</a>
+            <a href="#join" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">報名方式</a>
+            <div id="mobile-auth-section" class="py-3 px-6">
+                <button id="mobile-login-btn" class="w-full btn-primary text-white font-bold py-2 px-6 rounded-lg">會員登入</button>
+                <div id="mobile-user-info" class="hidden items-center justify-between">
+                     <div class="flex items-center space-x-3">
+                        <img id="mobile-user-avatar" class="w-10 h-10 rounded-full border-2 border-purple-400" src="" alt="User Avatar">
+                        <span id="mobile-user-name" class="text-white font-medium"></span>
+                    </div>
+                    <button id="mobile-logout-btn" class="text-gray-400 hover:text-white transition-colors" title="登出">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="h-screen flex items-center justify-center text-center px-4 relative">
+             <div class="absolute inset-0 bg-black/30"></div>
+             <div class="z-10">
+                <h1 class="font-cinzel text-5xl md:text-8xl font-black text-white text-glow leading-tight tracking-wider">
+                    UNLOCK YOUR MIND
+                </h1>
+                <p class="text-xl md:text-2xl mt-6 text-purple-200 font-light">探索心靈的魔術，開啟療癒的藝術</p>
+                <a href="#about" class="btn-primary text-white font-bold text-xl py-4 px-12 rounded-lg mt-12 shadow-lg inline-block">
+                    展開旅程
+                </a>
+            </div>
+        </section>
+
+        <div class="container mx-auto px-6 py-20 space-y-24">
+            <!-- About Section -->
+            <section id="about">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="font-cinzel text-4xl font-bold text-glow mb-6">關於我們</h2>
+                        <p class="text-lg leading-relaxed mb-4">台灣心靈魔術與療癒學會 (TMHA) 是一個致力於探索人類心靈潛能的專業社群。我們相信，魔術不僅是舞台上的幻術，更是通往潛意識的橋樑；療癒不僅是技巧，更是一門深刻的自我對話藝術。</p>
+                        <p class="text-lg leading-relaxed">學會匯集了心理學、魔術表演、催眠療癒等領域的專家，旨在提供一個系統化、安全且富有啟發性的學習平台，讓每一位會員都能在此找到屬於自己的心靈力量。</p>
+                    </div>
+                    <div>
+                        <img src="https://placehold.co/600x400/090a0f/8e2de2?text=TMHA" alt="學會象徵圖" class="rounded-2xl shadow-2xl shadow-purple-900/50">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Benefits Section -->
+            <section id="benefits">
+                <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">會員專屬福利</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="card p-8 text-center">
+                        <h3 class="text-2xl font-bold text-purple-300 mb-4">定期線上講座</h3>
+                        <p>每月由頂尖講師群主講，涵蓋從理論到實作的深度心靈課程，無限次回放觀看。</p>
+                    </div>
+                    <div class="card p-8 text-center">
+                        <h3 class="text-2xl font-bold text-purple-300 mb-4">專屬交流社群</h3>
+                        <p>進入會員限定的線上心靈聊天室，與同好、講師深度交流，安全地分享與成長。</p>
+                    </div>
+                    <div class="card p-8 text-center">
+                        <h3 class="text-2xl font-bold text-purple-300 mb-4">獨家教材資源</h3>
+                        <p>獲得學會精心編製的心靈魔術入門素材、療癒腳本與工具，加速您的學習曲線。</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Features Section -->
+            <section id="features">
+                <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">三大核心功能</h2>
+                 <div class="grid md:grid-cols-3 gap-8">
+                    <div class="card p-8 text-center flex flex-col">
+                        <h3 class="text-2xl font-bold text-white mb-4">會員線上心靈講座</h3>
+                        <p class="flex-grow">所有講座的入口、行事曆與回放庫。點擊進入，開啟您的深度學習之旅。</p>
+                        <a href="#" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">進入講座庫</a>
+                    </div>
+                    <div class="card p-8 text-center flex flex-col">
+                        <h3 class="text-2xl font-bold text-white mb-4">心靈聊天室</h3>
+                        <p class="flex-grow">一個安全、私密的交流空間。在這裡，您可以自在地提問、分享心得，找到心靈共鳴。</p>
+                         <a href="#" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">開始交流</a>
+                    </div>
+                    <div class="card p-8 text-center flex flex-col">
+                        <h3 class="text-2xl font-bold text-white mb-4">心靈魔術入門素材</h3>
+                        <p class="flex-grow">從基礎手法到進階心理技巧，所有獨家教材、講義與工具都收藏於此。</p>
+                         <a href="#" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">領取素材</a>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Instructors Section -->
+            <section id="instructors">
+                <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">黃金師資陣容</h2>
+                <div class="grid md:grid-cols-3 gap-10">
+                    <div class="text-center">
+                        <img src="https://placehold.co/150x150/1b2735/e0e0e0?text=HYT" class="w-40 h-40 rounded-full border-4 border-purple-500 mb-4 mx-auto" alt="講師黃鈺棠">
+                        <h4 class="text-2xl font-bold text-white">講師：黃鈺棠</h4>
+                        <p class="text-purple-300">心靈魔術實踐家</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://placehold.co/150x150/1b2735/e0e0e0?text=CKW" class="w-40 h-40 rounded-full border-4 border-purple-500 mb-4 mx-auto" alt="講師鄭凱文">
+                        <h4 class="text-2xl font-bold text-white">講師：鄭凱文</h4>
+                        <p class="text-purple-300">潛意識療癒引導師</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://placehold.co/150x150/1b2735/e0e0e0?text=LPH" class="w-40 h-40 rounded-full border-4 border-purple-500 mb-4 mx-auto" alt="講評人李柏翰">
+                        <h4 class="text-2xl font-bold text-white">講評人：李柏翰</h4>
+                        <p class="text-purple-300">心理學資深研究者</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Join Section -->
+            <section id="join">
+                <div class="card rounded-2xl p-12 text-center">
+                     <h2 class="font-cinzel text-4xl font-bold text-white text-glow mb-4">成為我們的一員</h2>
+                     <p class="text-lg text-purple-200 mb-8 max-w-2xl mx-auto">立即加入，您將獲得通往心靈深處的地圖與鑰匙。別再猶豫，您探索內在宇宙的旅程，就從這裡開始。</p>
+                      <a href="#" class="btn-primary text-white font-bold text-xl py-4 px-12 rounded-lg shadow-lg inline-block">
+                        立即申請入會
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-10 mt-12 border-t border-purple-900/50">
+        <p>&copy; 2025 台灣心靈魔術與療癒學會. All Rights Reserved.</p>
+        <p class="text-sm text-gray-500 mt-2">本網站內容僅供學術交流與個人成長用途</p>
+    </footer>
+
+    <script type="module">
+        // =================================================================
+        // ⭐ 您的 Firebase 設定碼已更新於此 ⭐
+        // =================================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCAF9rmOZzMgKTglHyEG87DfWSc1HkfMYM",
+            authDomain: "tmsmagic-f9f80.firebaseapp.com",
+            projectId: "tmsmagic-f9f80",
+            storageBucket: "tmsmagic-f9f80.firebasestorage.app",
+            messagingSenderId: "688602258875",
+            appId: "1:688602258875:web:db46ef5112638eda58f89e",
+            measurementId: "G-B5F74VYQ8P"
+        };
+        // =================================================================
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        // Firebase Initialization
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // --- DOM Elements ---
+        const navbar = document.getElementById('navbar');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Desktop Auth UI
+        const loginBtn = document.getElementById('login-btn');
+        const userInfo = document.getElementById('user-info');
+        const userAvatar = document.getElementById('user-avatar');
+        const userName = document.getElementById('user-name');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // Mobile Auth UI
+        const mobileLoginBtn = document.getElementById('mobile-login-btn');
+        const mobileUserInfo = document.getElementById('mobile-user-info');
+        const mobileUserAvatar = document.getElementById('mobile-user-avatar');
+        const mobileUserName = document.getElementById('mobile-user-name');
+        const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+
+        // --- Event Listeners ---
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Close mobile menu when a link is clicked
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // --- Firebase Auth Logic ---
+        const handleLogin = () => {
+            signInWithPopup(auth, provider).catch((error) => {
+                console.error("登入失敗:", error);
+                alert("登入失敗，請稍後再試。");
+            });
+        };
+
+        const handleLogout = () => {
+            signOut(auth).catch((error) => {
+                console.error("登出失敗:", error);
+            });
+        };
+
+        loginBtn.addEventListener('click', handleLogin);
+        mobileLoginBtn.addEventListener('click', handleLogin);
+        logoutBtn.addEventListener('click', handleLogout);
+        mobileLogoutBtn.addEventListener('click', handleLogout);
+
+        // Auth state listener
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                // Update Desktop UI
+                loginBtn.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+                userInfo.classList.add('flex');
+                userAvatar.src = user.photoURL;
+                userName.textContent = user.displayName;
+
+                // Update Mobile UI
+                mobileLoginBtn.classList.add('hidden');
+                mobileUserInfo.classList.remove('hidden');
+                mobileUserInfo.classList.add('flex');
+                mobileUserAvatar.src = user.photoURL;
+                mobileUserName.textContent = user.displayName;
+
+            } else {
+                // User is signed out
+                // Update Desktop UI
+                loginBtn.classList.remove('hidden');
+                userInfo.classList.add('hidden');
+                userInfo.classList.remove('flex');
+
+                 // Update Mobile UI
+                mobileLoginBtn.classList.remove('hidden');
+                mobileUserInfo.classList.add('hidden');
+                mobileUserInfo.classList.remove('flex');
+            }
+        });
+    </script>
+</body>
+</html>
+
