@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>講座限時回放 - 台灣心靈魔術與療癒學會</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            color: #e0e0e0;
+            font-family: 'Noto Sans TC', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem 0; /* 在 body 上下增加一些 padding，讓捲動時有空間 */
+        }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .text-glow { text-shadow: 0 0 8px rgba(240, 230, 255, 0.7), 0 0 16px rgba(195, 122, 255, 0.6); }
+        .card {
+            background-color: rgba(18, 18, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.3);
+            animation: fadeInScale 0.8s ease-out forwards;
+        }
+        /* YouTube 影片的響應式容器 */
+        .youtube-video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            background-color: #000;
+        }
+        .youtube-video-container #youtube-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="stars" id="star-container"></div>
+
+    <div class="card rounded-2xl w-full max-w-4xl mx-auto p-8 md:p-12 text-center">
+        
+        <h1 class="font-cinzel text-3xl md:text-4xl font-bold text-glow mb-2">第二場心靈線上講座｜深入實作篇：療癒 × 心靈魔術 Know-How</h1>
+        <p class="text-purple-200 text-lg mb-8">講座限時回放</p>
+        
+        <!-- View 1: 影片播放器畫面 -->
+        <div id="video-view" class="hidden">
+            <div class="youtube-video-container shadow-2xl shadow-purple-900/50">
+                <!-- YouTube 播放器將被 JS 插入到這裡 -->
+                <div id="youtube-player"></div>
+            </div>
+            <div class="mt-6">
+                <p class="text-amber-300 text-lg">回放即將結束</p>
+                <p id="replay-countdown" class="font-cinzel text-3xl font-bold text-amber-200"></p>
+            </div>
+        </div>
+
+        <!-- View 2: 狀態顯示畫面 (開放前/已結束) -->
+        <div id="status-view">
+            <div class="bg-black/20 p-8 rounded-lg border border-purple-800">
+                <p id="status-icon" class="text-5xl mb-4"></p>
+                <h2 id="status-title" class="text-3xl font-bold text-white mb-2"></h2>
+                <p id="status-countdown" class="font-cinzel text-4xl font-bold text-glow"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =================================================================
+        // ⭐ 請在這裡填寫您的設定 ⭐
+        // =================================================================
+        // 1. 您的 YouTube 影片 ID (網址中 v= 後面的那串代碼)
+        const YOUTUBE_VIDEO_ID = 'dWf-L0hvypk';
+
+        // 2. 回放開始時間 (年, 月-1, 日, 時, 分, 秒)
+        // 注意：月份是 0-11，所以10月是 9
+        const REPLAY_START_TIME = new Date(2025, 9, 12, 19, 50, 0); // 範例: 2025/10/12 晚上 7:50
+
+        // 3. 回放結束時間
+        const REPLAY_END_TIME = new Date(2025, 9, 21, 20, 00, 00); // 範例: 2025/10/13 晚上 23:59
+        // =================================================================
+
+        // DOM Elements
+        const videoView = document.getElementById('video-view');
+        const statusView = document.getElementById('status-view');
+        const replayCountdown = document.getElementById('replay-countdown');
+        const statusIcon = document.getElementById('status-icon');
+        const statusTitle = document.getElementById('status-title');
+        const statusCountdown = document.getElementById('status-countdown');
+
+        // YouTube Player variables
+        let player;
+        let highestWatchedTime = 0;
+        let progressInterval;
+        let seekCheckerInterval;
+        let isApiReady = false;
+        let isPlayerReady = false;
+
+        function formatCountdown(totalSeconds) {
+            if (totalSeconds < 0) totalSeconds = 0;
+            const d = Math.floor(totalSeconds / (3600 * 24));
+            const h = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = Math.floor(totalSeconds % 60);
+            const format = (n) => n.toString().padStart(2, '0');
+            return `${d} 天 ${format(h)}:${format(m)}:${format(s)}`;
+        }
+        
+        function updateReplayStatus() {
+            const now = new Date();
+            
+            if (now < REPLAY_START_TIME) {
+                videoView.classList.add('hidden');
+                statusView.classList.remove('hidden');
+                statusIcon.textContent = '⏳';
+                statusTitle.textContent = '回放即將開放';
+                const diff = Math.floor((REPLAY_START_TIME - now) / 1000);
+                statusCountdown.textContent = formatCountdown(diff);
+            } else if (now >= REPLAY_START_TIME && now < REPLAY_END_TIME) {
+                statusView.classList.add('hidden');
+                videoView.classList.remove('hidden');
+
+                if (!player && !window.YT) {
+                    loadYouTubeAPI();
+                } else if (window.YT && !player) {
+                    createPlayer();
+                }
+                
+                const diff = Math.floor((REPLAY_END_TIME - now) / 1000);
+                replayCountdown.textContent = formatCountdown(diff);
+            } else {
+                videoView.classList.add('hidden');
+                statusView.classList.remove('hidden');
+                statusIcon.textContent = '⌛';
+                statusTitle.textContent = '回放已結束';
+                statusCountdown.textContent = '感謝您的參與';
+                clearInterval(statusInterval);
+            }
+        }
+
+        // --- YouTube Player API Functions ---
+        function loadYouTubeAPI() {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+
+        window.onYouTubeIframeAPIReady = function() {
+            isApiReady = true;
+            createPlayer();
+        }
+
+        function createPlayer() {
+            if (!isApiReady || player) return;
+            player = new YT.Player('youtube-player', {
+                height: '315',
+                width: '560',
+                videoId: YOUTUBE_VIDEO_ID,
+                playerVars: {
+                    'playsinline': 1,
+                    'controls': 1, // 顯示原生控制器
+                    'rel': 0, // 不顯示相關影片
+                    'modestbranding': 1 // 隱藏 YouTube Logo
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            isPlayerReady = true;
+            // Start checking for seeking immediately
+            seekCheckerInterval = setInterval(() => {
+                if (player && typeof player.getCurrentTime === 'function') {
+                    const currentTime = player.getCurrentTime();
+                    // Allow for a small buffer (e.g., 1.5 seconds) for buffering
+                    if (currentTime > highestWatchedTime + 1.5) {
+                        player.seekTo(highestWatchedTime, true);
+                    }
+                }
+            }, 250);
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                // When playing, continuously update the highest watched time
+                progressInterval = setInterval(() => {
+                    if (player && typeof player.getCurrentTime === 'function') {
+                        highestWatchedTime = Math.max(highestWatchedTime, player.getCurrentTime());
+                    }
+                }, 500);
+            } else {
+                // If paused, buffering, or ended, stop updating the progress
+                clearInterval(progressInterval);
+            }
+        }
+
+        // --- Initial Load ---
+        const statusInterval = setInterval(updateReplayStatus, 1000);
+        updateReplayStatus();
+
+        // --- Starry Background ---
+        const starContainer = document.getElementById('star-container');
+        function createStars() {
+            if (!starContainer) return;
+            const starCount = 150;
+            let starsHtml = '';
+            for (let i = 0; i < starCount; i++) {
+                const size = Math.random() * 2.5 + 1;
+                const top = Math.random() * 100;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 2 + 1.5;
+                const delay = Math.random() * duration;
+                starsHtml += `<div style="width:${size}px; height:${size}px; position:absolute; background-color:white; border-radius:50%; top:${top}%; left:${left}%; animation:sparkle ${duration}s infinite ease-in-out; animation-delay:${delay}s;"></div>`;
+            }
+            starContainer.innerHTML = starsHtml;
+        }
+        
+        const styleSheet = document.createElement("style");
+        styleSheet.type = "text/css";
+        styleSheet.innerText = `@keyframes sparkle { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.5); opacity: 1; } }`;
+        document.head.appendChild(styleSheet);
+        
+        window.onload = createStars;
+    </script>
+</body>
+</html>
+
