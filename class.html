@@ -18,7 +18,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 2rem 0; /* 在 body 上下增加一些 padding，讓捲動時有空間 */
+            padding: 2rem 0;
         }
         .font-cinzel { font-family: 'Cinzel', serif; }
         .text-glow { text-shadow: 0 0 8px rgba(240, 230, 255, 0.7), 0 0 16px rgba(195, 122, 255, 0.6); }
@@ -29,11 +29,10 @@
             box-shadow: 0 0 25px rgba(138, 43, 226, 0.3);
             animation: fadeInScale 0.8s ease-out forwards;
         }
-        /* YouTube 影片的響應式容器 */
         .youtube-video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%; /* 16:9 */
             height: 0;
             overflow: hidden;
             border-radius: 0.5rem;
@@ -47,7 +46,6 @@
             height: 100%;
             border: 0;
         }
-
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
@@ -65,13 +63,16 @@
         <!-- View 1: 影片播放器畫面 -->
         <div id="video-view" class="hidden">
             <div class="youtube-video-container shadow-2xl shadow-purple-900/50">
-                <!-- YouTube 播放器將被 JS 插入到這裡 -->
                 <div id="youtube-player"></div>
             </div>
             <div class="mt-6">
                 <p class="text-amber-300 text-lg">回放即將結束</p>
                 <p id="replay-countdown" class="font-cinzel text-3xl font-bold text-amber-200"></p>
             </div>
+            <!-- ⭐ 新增：影片播放時的備用連結 -->
+            <p class="text-xs text-gray-400 mt-4">
+                如果影片無法正常播放，<a id="direct-link-video" href="#" target="_blank" class="underline hover:text-white transition-colors">請點擊此處直接觀看</a>。
+            </p>
         </div>
 
         <!-- View 2: 狀態顯示畫面 (開放前/已結束) -->
@@ -81,6 +82,10 @@
                 <h2 id="status-title" class="text-3xl font-bold text-white mb-2"></h2>
                 <p id="status-countdown" class="font-cinzel text-4xl font-bold text-glow"></p>
             </div>
+             <!-- ⭐ 新增：狀態顯示時的備用連結 -->
+            <p class="text-xs text-gray-400 mt-6">
+                如果倒數結束後影片未出現，<a id="direct-link-status" href="#" target="_blank" class="underline hover:text-white transition-colors">請點擊此處直接前往觀看</a>。
+            </p>
         </div>
     </div>
 
@@ -88,16 +93,12 @@
         // =================================================================
         // ⭐ 請在這裡填寫您的設定 ⭐
         // =================================================================
-        // 1. 您的 YouTube 影片 ID (網址中 v= 後面的那串代碼)
-        const YOUTUBE_VIDEO_ID = 'dWf-L0hvypk';
-
-        // 2. 回放開始時間 (年, 月-1, 日, 時, 分, 秒)
-        // 注意：月份是 0-11，所以10月是 9
-        const REPLAY_START_TIME = new Date(2025, 9, 12, 19, 50, 0); // 範例: 2025/10/12 晚上 7:50
-
-        // 3. 回放結束時間
-        const REPLAY_END_TIME = new Date(2025, 9, 21, 20, 00, 00); // 範例: 2025/10/13 晚上 23:59
+        const YOUTUBE_VIDEO_ID = 'dWf-L0hvypk'; // 已更新為您提供的影片 ID
+        const REPLAY_START_TIME = new Date(2025, 9, 13, 1, 15, 0); // 已調整為 2025/10/14 晚上 11:15 (方便測試)
+        const REPLAY_END_TIME = new Date(2025, 9, 21, 20, 00, 0);   // 已調整為 2025/10/17 晚上 11:15 (方便測試)
         // =================================================================
+        
+        const YOUTUBE_WATCH_URL = `https://www.youtube.com/watch?v=${YOUTUBE_VIDEO_ID}`;
 
         // DOM Elements
         const videoView = document.getElementById('video-view');
@@ -106,6 +107,8 @@
         const statusIcon = document.getElementById('status-icon');
         const statusTitle = document.getElementById('status-title');
         const statusCountdown = document.getElementById('status-countdown');
+        const directLinkVideo = document.getElementById('direct-link-video');
+        const directLinkStatus = document.getElementById('direct-link-status');
 
         // YouTube Player variables
         let player;
@@ -113,7 +116,6 @@
         let progressInterval;
         let seekCheckerInterval;
         let isApiReady = false;
-        let isPlayerReady = false;
 
         function formatCountdown(totalSeconds) {
             if (totalSeconds < 0) totalSeconds = 0;
@@ -138,13 +140,11 @@
             } else if (now >= REPLAY_START_TIME && now < REPLAY_END_TIME) {
                 statusView.classList.add('hidden');
                 videoView.classList.remove('hidden');
-
                 if (!player && !window.YT) {
                     loadYouTubeAPI();
                 } else if (window.YT && !player) {
                     createPlayer();
                 }
-                
                 const diff = Math.floor((REPLAY_END_TIME - now) / 1000);
                 replayCountdown.textContent = formatCountdown(diff);
             } else {
@@ -173,29 +173,16 @@
         function createPlayer() {
             if (!isApiReady || player) return;
             player = new YT.Player('youtube-player', {
-                height: '315',
-                width: '560',
                 videoId: YOUTUBE_VIDEO_ID,
-                playerVars: {
-                    'playsinline': 1,
-                    'controls': 1, // 顯示原生控制器
-                    'rel': 0, // 不顯示相關影片
-                    'modestbranding': 1 // 隱藏 YouTube Logo
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
+                playerVars: { 'playsinline': 1, 'controls': 1, 'rel': 0, 'modestbranding': 1 },
+                events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
             });
         }
 
         function onPlayerReady(event) {
-            isPlayerReady = true;
-            // Start checking for seeking immediately
             seekCheckerInterval = setInterval(() => {
                 if (player && typeof player.getCurrentTime === 'function') {
                     const currentTime = player.getCurrentTime();
-                    // Allow for a small buffer (e.g., 1.5 seconds) for buffering
                     if (currentTime > highestWatchedTime + 1.5) {
                         player.seekTo(highestWatchedTime, true);
                     }
@@ -205,19 +192,22 @@
 
         function onPlayerStateChange(event) {
             if (event.data == YT.PlayerState.PLAYING) {
-                // When playing, continuously update the highest watched time
                 progressInterval = setInterval(() => {
                     if (player && typeof player.getCurrentTime === 'function') {
                         highestWatchedTime = Math.max(highestWatchedTime, player.getCurrentTime());
                     }
                 }, 500);
             } else {
-                // If paused, buffering, or ended, stop updating the progress
                 clearInterval(progressInterval);
             }
         }
 
-        // --- Initial Load ---
+        // --- Initial Load & Setup ---
+        document.addEventListener('DOMContentLoaded', () => {
+            directLinkVideo.href = YOUTUBE_WATCH_URL;
+            directLinkStatus.href = YOUTUBE_WATCH_URL;
+        });
+        
         const statusInterval = setInterval(updateReplayStatus, 1000);
         updateReplayStatus();
 
@@ -237,12 +227,10 @@
             }
             starContainer.innerHTML = starsHtml;
         }
-        
         const styleSheet = document.createElement("style");
         styleSheet.type = "text/css";
         styleSheet.innerText = `@keyframes sparkle { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.5); opacity: 1; } }`;
         document.head.appendChild(styleSheet);
-        
         window.onload = createStars;
     </script>
 </body>
