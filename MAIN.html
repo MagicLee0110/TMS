@@ -57,7 +57,7 @@
             <a href="#hero" class="font-cinzel text-xl font-bold text-glow">TMHA</a>
             <nav class="hidden md:flex space-x-8 text-lg">
                 <a href="#about" class="hover:text-purple-300 transition-colors">學會介紹</a>
-                <a id="nav-features-link" href="#features" class="hover:text-purple-300 transition-colors hidden">核心功能</a>
+                <a id="nav-features-link" href="#features" class="hover:text-purple-300 transition-colors hidden">會員福利</a>
                 <a href="#join" class="hover:text-purple-300 transition-colors">報名方式</a>
             </nav>
             
@@ -78,7 +78,7 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-black/50 backdrop-blur-lg">
             <a href="#about" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">學會介紹</a>
-            <a id="mobile-nav-features-link" href="#features" class="block text-center py-3 hover:bg-purple-900/50 transition-colors hidden">核心功能</a>
+            <a id="mobile-nav-features-link" href="#features" class="block text-center py-3 hover:bg-purple-900/50 transition-colors hidden">會員福利</a>
             <a href="#join" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">報名方式</a>
             <div id="mobile-auth-section" class="py-3 px-6">
                 <button id="mobile-login-btn" class="w-full btn-primary text-white font-bold py-2 px-6 rounded-lg">會員登入</button>
@@ -120,22 +120,22 @@
             </section>
 
             <section id="features" class="hidden">
-                <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">三大核心功能</h2>
+                <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">會員專屬福利</h2>
                  <div class="grid md:grid-cols-3 gap-8">
                     <div class="card p-8 text-center flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4">會員線上心靈講座</h3>
-                        <p class="flex-grow">所有講座的入口、行事曆與回放庫。點擊進入，開啟您的深度學習之旅。</p>
-                        <a href="#" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">進入講座庫</a>
+                        <h3 class="text-2xl font-bold text-white mb-4">教材與線上活動</h3>
+                        <p class="flex-grow">免費獲得入門心靈魔術教材，並參與每年至少6場的線上講座(價值$2100)與6場心靈聊天室直播，與專家和嘉賓深度互動。</p>
+                        <a href="#" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">進入學習中心</a>
                     </div>
                     <div class="card p-8 text-center flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4">心靈聊天室</h3>
-                        <p class="flex-grow">一個安全、私密的交流空間。在這裡，您可以自在地提問、分享心得，找到心靈共鳴。</p>
+                        <h3 class="text-2xl font-bold text-white mb-4">專屬交流社群</h3>
+                        <p class="flex-grow">加入會員限定的交流群組，與來自各地的同好建立連結、一同成長，並享有學會提供的專業資源，擴展您的心靈視野。</p>
                          <a href="#" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">開始交流</a>
                     </div>
                     <div class="card p-8 text-center flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4">心靈魔術入門素材</h3>
-                        <p class="flex-grow">從基礎手法到進階心理技巧，所有獨家教材、講義與工具都收藏於此。</p>
-                         <a href="#" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">領取素材</a>
+                        <h3 class="text-2xl font-bold text-white mb-4">會員獨享權益</h3>
+                        <p class="flex-grow">免費獲得一枚象徵會員身分的實體專屬徽章。在年度最大的心靈魔術盛會中，更享有以「超級優惠價」購票的尊榮福利。</p>
+                         <a href="#" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">查看我的權益</a>
                     </div>
                 </div>
             </section>
@@ -194,7 +194,7 @@
         // ⭐ 請在這裡設定有權限的會員 Google Email ⭐
         // =================================================================
         const authorizedUsers = [
-            "mentalee1089@gmail.com", 
+            "example1@gmail.com", 
             "your.email@gmail.com"
         ];
         // =================================================================
@@ -208,7 +208,6 @@
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         
-        // ⭐ 修改: 指向 features 區塊和其導覽連結
         const featuresSection = document.getElementById('features');
         const navFeaturesLink = document.getElementById('nav-features-link');
         const mobileNavFeaturesLink = document.getElementById('mobile-nav-features-link');
@@ -259,12 +258,10 @@
             const isLoggedIn = !!user;
             const isAuthorized = isLoggedIn && authorizedUsers.includes(user.email);
 
-            // ⭐ 修改: 根據授權狀態顯示/隱藏 features 區塊
             featuresSection.classList.toggle('hidden', !isAuthorized);
             navFeaturesLink.classList.toggle('hidden', !isAuthorized);
             mobileNavFeaturesLink.classList.toggle('hidden', !isAuthorized);
 
-            // UI updates
             if (isLoggedIn) {
                 if (!isAuthorized) {
                     alert("抱歉，您的帳號沒有瀏覽會員內容的權限。");
