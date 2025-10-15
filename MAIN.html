@@ -57,7 +57,7 @@
             <a href="#hero" class="font-cinzel text-xl font-bold text-glow">TMS</a>
             <nav class="hidden md:flex space-x-8 text-lg">
                 <a href="#about" class="hover:text-purple-300 transition-colors">學會介紹</a>
-                <a id="nav-features-link" href="#features" class="hover:text-purple-300 transition-colors hidden">會員福利</a>
+                <a href="#features" class="hover:text-purple-300 transition-colors">會員福利</a>
                 <a href="#join" class="hover:text-purple-300 transition-colors">報名方式</a>
             </nav>
             
@@ -78,7 +78,7 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-black/50 backdrop-blur-lg">
             <a href="#about" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">學會介紹</a>
-            <a id="mobile-nav-features-link" href="#features" class="block text-center py-3 hover:bg-purple-900/50 transition-colors hidden">會員福利</a>
+             <a href="#features" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">會員福利</a>
             <a href="#join" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">報名方式</a>
             <div id="mobile-auth-section" class="py-3 px-6">
                 <button id="mobile-login-btn" class="w-full btn-primary text-white font-bold py-2 px-6 rounded-lg">會員登入</button>
@@ -129,7 +129,7 @@
                 </div>
             </section>
 
-            <section id="features" class="hidden">
+            <section id="features">
                 <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">會員專屬福利</h2>
                  <div class="grid md:grid-cols-3 gap-8">
                     <div class="card p-8 text-center flex flex-col">
@@ -202,9 +202,10 @@
 
         // =================================================================
         // ⭐ 請在這裡設定有權限的會員 Google Email ⭐
+        // 登入功能仍然有效，只是會員福利區塊現在對所有人可見
         // =================================================================
         const authorizedUsers = [
-            "mentalee1089@gmail.com", 
+            "meantal1089@gmail.com", 
             "your.email@gmail.com"
         ];
         // =================================================================
@@ -217,10 +218,6 @@
         const navbar = document.getElementById('navbar');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        
-        const featuresSection = document.getElementById('features');
-        const navFeaturesLink = document.getElementById('nav-features-link');
-        const mobileNavFeaturesLink = document.getElementById('mobile-nav-features-link');
 
         // --- Auth UI Elements ---
         const loginBtn = document.getElementById('login-btn');
@@ -266,22 +263,23 @@
         // --- Auth State Logic ---
         onAuthStateChanged(auth, (user) => {
             const isLoggedIn = !!user;
+            // ⭐ 修改: 移除所有控制會員福利區塊顯示/隱藏的程式碼
+            // isAuthorized 檢查仍然保留，以防未來有其他需要權限控制的功能
             const isAuthorized = isLoggedIn && authorizedUsers.includes(user.email);
 
-            featuresSection.classList.toggle('hidden', !isAuthorized);
-            navFeaturesLink.classList.toggle('hidden', !isAuthorized);
-            mobileNavFeaturesLink.classList.toggle('hidden', !isAuthorized);
-
             if (isLoggedIn) {
+                // 如果登入的使用者不在授權名單中，可以選擇性地提醒或自動登出
+                // 目前這段 alert 邏輯暫時註解，因為沒有需要隱藏的內容
+                /*
                 if (!isAuthorized) {
-                    alert("抱歉，您的帳號沒有瀏覽會員內容的權限。");
-                    handleLogout();
-                    return;
+                    alert("登入成功，但您的帳號目前沒有額外的會員權限。");
                 }
+                */
                 [userAvatar.src, mobileUserAvatar.src] = [user.photoURL, user.photoURL];
                 [userName.textContent, mobileUserName.textContent] = [user.displayName, user.displayName];
             }
             
+            // 更新登入/登出按鈕的 UI 狀態
             loginBtn.classList.toggle('hidden', isLoggedIn);
             mobileLoginBtn.classList.toggle('hidden', isLoggedIn);
             userInfo.classList.toggle('hidden', !isLoggedIn);
