@@ -102,7 +102,9 @@
             <section id="hero" class="h-screen flex items-center justify-center text-center px-4 relative">
                  <div class="absolute inset-0 bg-black/30"></div>
                  <div class="z-10">
-                    <h1 class="font-cinzel text-5xl md:text-8xl font-black text-white text-glow leading-tight tracking-wider">UNLOCK YOUR MIND</h1>
+                    <h1 class="text-5xl md:text-7xl font-black text-white text-glow leading-tight">
+                        台灣心靈魔術與療癒學會
+                    </h1>
                     <p class="text-xl md:text-2xl mt-6 text-purple-200 font-light">探索心靈的魔術，開啟療癒的藝術</p>
                     <a href="#about" class="btn-primary text-white font-bold text-xl py-4 px-12 rounded-lg mt-12 shadow-lg inline-block">展開旅程</a>
                 </div>
@@ -133,7 +135,7 @@
                 </section>
 
                 <section id="features">
-                    <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">會員專屬福利</h2>
+                    <h2 class="text-5xl font-bold text-glow text-center mb-12">會員專屬福利</h2>
                      <div class="grid md:grid-cols-3 gap-8">
                         <div class="card p-8 text-center flex flex-col">
                             <h3 class="text-2xl font-bold text-white mb-4">教材與活動</h3>
@@ -197,7 +199,8 @@
         </div>
 
         <div id="member-area" class="hidden">
-            <div class="container mx-auto px-6 pt-32 pb-16 text-center"> <h1 id="welcome-message" class="font-cinzel text-5xl font-bold text-white text-glow"></h1>
+            <div class="container mx-auto px-6 pt-32 pb-16 text-center"> 
+                <h1 id="welcome-message" class="font-cinzel text-5xl font-bold text-white text-glow"></h1>
                 <p class="text-xl text-purple-200 mt-4">歡迎來到您的會員專區</p>
             </div>
 
@@ -252,7 +255,7 @@
         // ⭐ 請在這裡設定有權限的會員 Google Email ⭐
         // =================================================================
         const authorizedUsers = [
-            "mentalee1089@gmail.com", 
+            "example1@gmail.com", 
             "your.email@gmail.com"
         ];
         // =================================================================
@@ -261,13 +264,11 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        // --- DOM Elements ---
         const publicContent = document.getElementById('public-content');
         const memberArea = document.getElementById('member-area');
         const welcomeMessage = document.getElementById('welcome-message');
         const publicNav = document.getElementById('public-nav');
         const mobilePublicNav = document.getElementById('mobile-public-nav');
-
         const navbar = document.getElementById('navbar');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -282,7 +283,6 @@
         const mobileUserName = document.getElementById('mobile-user-name');
         const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
 
-        // --- Event Listeners ---
         window.addEventListener('scroll', () => {
             navbar.classList.toggle('scrolled', window.scrollY > 50);
         });
@@ -311,13 +311,11 @@
         [loginBtn, mobileLoginBtn].forEach(btn => btn.addEventListener('click', handleLogin));
         [logoutBtn, mobileLogoutBtn].forEach(btn => btn.addEventListener('click', handleLogout));
 
-        // --- Auth State Logic ---
         onAuthStateChanged(auth, (user) => {
             const isLoggedIn = !!user;
             const isAuthorized = isLoggedIn && authorizedUsers.includes(user.email);
 
             if (isAuthorized) {
-                // --- 授權會員登入，切換到會員介面 ---
                 publicContent.classList.add('hidden');
                 memberArea.classList.remove('hidden');
                 publicNav.classList.add('hidden'); 
@@ -335,7 +333,6 @@
                 mobileUserInfo.classList.add('flex');
 
             } else {
-                // --- 未登入或無權限，顯示公開介面 ---
                 publicContent.classList.remove('hidden');
                 memberArea.classList.add('hidden');
                 publicNav.classList.remove('hidden'); 
@@ -358,4 +355,3 @@
     </script>
 </body>
 </html>
-
