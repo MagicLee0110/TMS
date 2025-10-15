@@ -78,7 +78,7 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-black/50 backdrop-blur-lg">
             <a href="#about" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">學會介紹</a>
-             <a href="#features" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">會員福利</a>
+            <a href="#features" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">會員福利</a>
             <a href="#join" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">報名方式</a>
             <div id="mobile-auth-section" class="py-3 px-6">
                 <button id="mobile-login-btn" class="w-full btn-primary text-white font-bold py-2 px-6 rounded-lg">會員登入</button>
@@ -133,19 +133,31 @@
                 <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">會員專屬福利</h2>
                  <div class="grid md:grid-cols-3 gap-8">
                     <div class="card p-8 text-center flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4">教材與線上活動</h3>
-                        <p class="flex-grow">免費獲得入門心靈魔術教材，並參與每年至少6場的線上講座(價值$2100)與6場心靈聊天室直播，與專家和嘉賓深度互動。</p>
-                        <a href="#" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">進入學習中心</a>
+                        <h3 class="text-2xl font-bold text-white mb-4">教材與活動</h3>
+                        <p class="flex-grow text-left">
+                            • 免費入門心靈魔術教材<br>
+                            • 免費會員線上講座 (價值$2100)<br>
+                            • 免費心靈聊天室直播<br>
+                            <span class="text-sm text-gray-400">(講座與聊天室每年最少各6場)</span>
+                        </p>
+                        <a href="#join" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">立即加入</a>
                     </div>
                     <div class="card p-8 text-center flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4">專屬交流社群</h3>
-                        <p class="flex-grow">加入會員限定的交流群組，與來自各地的同好建立連結、一同成長，並享有學會提供的專業資源，擴展您的心靈視野。</p>
-                         <a href="#" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">開始交流</a>
+                        <h3 class="text-2xl font-bold text-white mb-4">會員獨享</h3>
+                        <p class="flex-grow text-left">
+                           • 獨有實體會員徽章<br>
+                           • 專屬線上交流群組<br>
+                           • 共享學會專業資源<br>
+                           • 與各地同好建立連結
+                        </p>
+                         <a href="#join" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">成為會員</a>
                     </div>
                     <div class="card p-8 text-center flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4">會員獨享權益</h3>
-                        <p class="flex-grow">免費獲得一枚象徵會員身分的實體專屬徽章。在年度最大的心靈魔術盛會中，更享有以「超級優惠價」購票的尊榮福利。</p>
-                         <a href="#" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">查看我的權益</a>
+                        <h3 class="text-2xl font-bold text-white mb-4">年度盛會</h3>
+                        <p class="flex-grow">
+                            在年度最大的心靈魔術盛宴「心靈年度大會」中，會員獨家享有以「超級優惠價」購票入場的尊榮福利。
+                        </p>
+                         <a href="#join" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">了解更多</a>
                     </div>
                 </div>
             </section>
@@ -201,11 +213,10 @@
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
         // =================================================================
-        // ⭐ 請在這裡設定有權限的會員 Google Email ⭐
-        // 登入功能仍然有效，只是會員福利區塊現在對所有人可見
+        // ⭐ 會員登入功能仍然保留，可用於未來擴充其他會員限定功能
         // =================================================================
         const authorizedUsers = [
-            "meantal1089@gmail.com", 
+            "meantalee1089@gmail.com", 
             "your.email@gmail.com"
         ];
         // =================================================================
@@ -214,12 +225,9 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        // --- DOM Elements ---
         const navbar = document.getElementById('navbar');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-
-        // --- Auth UI Elements ---
         const loginBtn = document.getElementById('login-btn');
         const userInfo = document.getElementById('user-info');
         const userAvatar = document.getElementById('user-avatar');
@@ -231,7 +239,6 @@
         const mobileUserName = document.getElementById('mobile-user-name');
         const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
 
-        // --- Event Listeners ---
         window.addEventListener('scroll', () => {
             navbar.classList.toggle('scrolled', window.scrollY > 50);
         });
@@ -260,26 +267,14 @@
         [loginBtn, mobileLoginBtn].forEach(btn => btn.addEventListener('click', handleLogin));
         [logoutBtn, mobileLogoutBtn].forEach(btn => btn.addEventListener('click', handleLogout));
 
-        // --- Auth State Logic ---
         onAuthStateChanged(auth, (user) => {
             const isLoggedIn = !!user;
-            // ⭐ 修改: 移除所有控制會員福利區塊顯示/隱藏的程式碼
-            // isAuthorized 檢查仍然保留，以防未來有其他需要權限控制的功能
-            const isAuthorized = isLoggedIn && authorizedUsers.includes(user.email);
-
+            
             if (isLoggedIn) {
-                // 如果登入的使用者不在授權名單中，可以選擇性地提醒或自動登出
-                // 目前這段 alert 邏輯暫時註解，因為沒有需要隱藏的內容
-                /*
-                if (!isAuthorized) {
-                    alert("登入成功，但您的帳號目前沒有額外的會員權限。");
-                }
-                */
                 [userAvatar.src, mobileUserAvatar.src] = [user.photoURL, user.photoURL];
                 [userName.textContent, mobileUserName.textContent] = [user.displayName, user.displayName];
             }
             
-            // 更新登入/登出按鈕的 UI 狀態
             loginBtn.classList.toggle('hidden', isLoggedIn);
             mobileLoginBtn.classList.toggle('hidden', isLoggedIn);
             userInfo.classList.toggle('hidden', !isLoggedIn);
