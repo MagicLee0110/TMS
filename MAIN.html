@@ -54,8 +54,8 @@
 
     <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div class="container mx-auto flex justify-between items-center p-4">
-            <a href="#hero" class="font-cinzel text-xl font-bold text-glow">TMS</a>
-            <nav class="hidden md:flex space-x-8 text-lg">
+            <a href="#" class="font-cinzel text-xl font-bold text-glow">TMS</a>
+            <nav id="public-nav" class="hidden md:flex space-x-8 text-lg">
                 <a href="#about" class="hover:text-purple-300 transition-colors">學會介紹</a>
                 <a href="#features" class="hover:text-purple-300 transition-colors">會員福利</a>
                 <a href="#join" class="hover:text-purple-300 transition-colors">報名方式</a>
@@ -77,9 +77,11 @@
             </button>
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-black/50 backdrop-blur-lg">
-            <a href="#about" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">學會介紹</a>
-            <a href="#features" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">會員福利</a>
-            <a href="#join" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">報名方式</a>
+            <div id="mobile-public-nav">
+                <a href="#about" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">學會介紹</a>
+                <a href="#features" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">會員福利</a>
+                <a href="#join" class="block text-center py-3 hover:bg-purple-900/50 transition-colors">報名方式</a>
+            </div>
             <div id="mobile-auth-section" class="py-3 px-6">
                 <button id="mobile-login-btn" class="w-full btn-primary text-white font-bold py-2 px-6 rounded-lg">會員登入</button>
                 <div id="mobile-user-info" class="hidden items-center justify-between">
@@ -96,100 +98,134 @@
     </header>
 
     <main>
-        <section id="hero" class="h-screen flex items-center justify-center text-center px-4 relative">
-             <div class="absolute inset-0 bg-black/30"></div>
-             <div class="z-10">
-                <h1 class="font-cinzel text-5xl md:text-8xl font-black text-white text-glow leading-tight tracking-wider">UNLOCK YOUR MIND</h1>
-                <p class="text-xl md:text-2xl mt-6 text-purple-200 font-light">探索心靈的魔術，開啟療癒的藝術</p>
-                <a href="#about" class="btn-primary text-white font-bold text-xl py-4 px-12 rounded-lg mt-12 shadow-lg inline-block">展開旅程</a>
-            </div>
-        </section>
-
-        <div class="container mx-auto px-6 py-20 space-y-24">
-            <section id="about">
-                <div class="grid md:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h2 class="font-cinzel text-4xl font-bold text-glow mb-6">關於我們</h2>
-                        <p class="text-xl italic text-purple-200 mb-6">「如果台灣魔術有本歷史，這將會是心靈魔術篇章的開始。」</p>
-                        <div class="space-y-2 mb-6">
-                            <p class="text-lg leading-relaxed">這裡，是魔術的聖地。</p>
-                            <p class="text-lg leading-relaxed">這裡，是心靈魔術師的聚集地。</p>
-                            <p class="text-lg leading-relaxed">這裡，是你的療癒之域。</p>
-                        </div>
-                        <p class="text-lg leading-relaxed mb-4">
-                            <span class="font-bold text-white">我們來了！</span> 台灣心靈魔術與療癒學會 (Taiwan Mentalism Society, TMS) 成立於2025年，由台灣各地心靈魔術圈頂尖人士組成，致力於推廣心靈魔術與療癒心靈魔術。
-                        </p>
-                        <p class="text-lg leading-relaxed">
-                            我們定期舉辦心靈相關課程、活動與大會。我們的使命，是讓心靈魔術發揚光大、讓更多人擁有療癒自我及他人的能力。
-                        </p>
-                    </div>
-                    <div>
-                        <img src="https://placehold.co/600x400/090a0f/8e2de2?text=TMS" alt="學會象徵圖" class="rounded-2xl shadow-2xl shadow-purple-900/50">
-                    </div>
+        <div id="public-content">
+            <section id="hero" class="h-screen flex items-center justify-center text-center px-4 relative">
+                 <div class="absolute inset-0 bg-black/30"></div>
+                 <div class="z-10">
+                    <h1 class="font-cinzel text-5xl md:text-8xl font-black text-white text-glow leading-tight tracking-wider">UNLOCK YOUR MIND</h1>
+                    <p class="text-xl md:text-2xl mt-6 text-purple-200 font-light">探索心靈的魔術，開啟療癒的藝術</p>
+                    <a href="#about" class="btn-primary text-white font-bold text-xl py-4 px-12 rounded-lg mt-12 shadow-lg inline-block">展開旅程</a>
                 </div>
             </section>
 
-            <section id="features">
-                <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">會員專屬福利</h2>
+            <div class="container mx-auto px-6 py-20 space-y-24">
+                <section id="about">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h2 class="font-cinzel text-4xl font-bold text-glow mb-6">關於我們</h2>
+                            <p class="text-xl italic text-purple-200 mb-6">「如果台灣魔術有本歷史，這將會是心靈魔術篇章的開始。」</p>
+                            <div class="space-y-2 mb-6">
+                                <p class="text-lg leading-relaxed">這裡，是魔術的聖地。</p>
+                                <p class="text-lg leading-relaxed">這裡，是心靈魔術師的聚集地。</p>
+                                <p class="text-lg leading-relaxed">這裡，是你的療癒之域。</p>
+                            </div>
+                            <p class="text-lg leading-relaxed mb-4">
+                                <span class="font-bold text-white">我們來了！</span> 台灣心靈魔術與療癒學會 (Taiwan Mentalism Society, TMS) 成立於2025年，由台灣各地心靈魔術圈頂尖人士組成，致力於推廣心靈魔術與療癒心靈魔術。
+                            </p>
+                            <p class="text-lg leading-relaxed">
+                                我們定期舉辦心靈相關課程、活動與大會。我們的使命，是讓心靈魔術發揚光大、讓更多人擁有療癒自我及他人的能力。
+                            </p>
+                        </div>
+                        <div>
+                            <img src="https://placehold.co/600x400/090a0f/8e2de2?text=TMS" alt="學會象徵圖" class="rounded-2xl shadow-2xl shadow-purple-900/50">
+                        </div>
+                    </div>
+                </section>
+
+                <section id="features">
+                    <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">會員專屬福利</h2>
+                     <div class="grid md:grid-cols-3 gap-8">
+                        <div class="card p-8 text-center flex flex-col">
+                            <h3 class="text-2xl font-bold text-white mb-4">教材與活動</h3>
+                            <p class="flex-grow text-left">
+                                • 免費入門心靈魔術教材<br>
+                                • 免費會員線上講座 (價值$2100)<br>
+                                • 免費心靈聊天室直播<br>
+                                <span class="text-sm text-gray-400">(講座與聊天室每年最少各6場)</span>
+                            </p>
+                            <a href="#join" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">立即加入</a>
+                        </div>
+                        <div class="card p-8 text-center flex flex-col">
+                            <h3 class="text-2xl font-bold text-white mb-4">會員獨享</h3>
+                            <p class="flex-grow text-left">
+                               • 獨有實體會員徽章<br>
+                               • 專屬線上交流群組<br>
+                               • 共享學會專業資源<br>
+                               • 與各地同好建立連結
+                            </p>
+                             <a href="#join" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">成為會員</a>
+                        </div>
+                        <div class="card p-8 text-center flex flex-col">
+                            <h3 class="text-2xl font-bold text-white mb-4">年度盛會</h3>
+                            <p class="flex-grow">
+                                在年度最大的心靈魔術盛宴「心靈年度大會」中，會員獨家享有以「超級優惠價」購票入場的尊榮福利。
+                            </p>
+                             <a href="#join" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">了解更多</a>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="instructors">
+                    <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">黃金師資陣容</h2>
+                    <div class="grid md:grid-cols-3 gap-10">
+                        <div class="text-center">
+                            <img src="https://placehold.co/150x150/1b2735/e0e0e0?text=HYT" class="w-40 h-40 rounded-full border-4 border-purple-500 mb-4 mx-auto" alt="講師黃鈺棠">
+                            <h4 class="text-2xl font-bold text-white">講師：黃鈺棠</h4>
+                            <p class="text-purple-300">心靈魔術實踐家</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://placehold.co/150x150/1b2735/e0e0e0?text=CKW" class="w-40 h-40 rounded-full border-4 border-purple-500 mb-4 mx-auto" alt="講師鄭凱文">
+                            <h4 class="text-2xl font-bold text-white">講師：鄭凱文</h4>
+                            <p class="text-purple-300">潛意識療癒引導師</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://placehold.co/150x150/1b2735/e0e0e0?text=LPH" class="w-40 h-40 rounded-full border-4 border-purple-500 mb-4 mx-auto" alt="講評人李柏翰">
+                            <h4 class="text-2xl font-bold text-white">講評人：李柏翰</h4>
+                            <p class="text-purple-300">心理學資深研究者</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="join">
+                    <div class="card rounded-2xl p-12 text-center">
+                         <h2 class="font-cinzel text-4xl font-bold text-white text-glow mb-4">成為我們的一員</h2>
+                         <p class="text-lg text-purple-200 mb-8 max-w-2xl mx-auto">立即加入，您將獲得通往心靈深處的地圖與鑰匙。別再猶豫，您探索內在宇宙的旅程，就從這裡開始。</p>
+                         <a href="#" class="btn-primary text-white font-bold text-xl py-4 px-12 rounded-lg shadow-lg inline-block">立即申請入會</a>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div id="member-area" class="hidden">
+            <div class="container mx-auto px-6 pt-32 pb-16 text-center"> <h1 id="welcome-message" class="font-cinzel text-5xl font-bold text-white text-glow"></h1>
+                <p class="text-xl text-purple-200 mt-4">歡迎來到您的會員專區</p>
+            </div>
+
+            <div class="container mx-auto px-6 py-10">
                  <div class="grid md:grid-cols-3 gap-8">
                     <div class="card p-8 text-center flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4">教材與活動</h3>
-                        <p class="flex-grow text-left">
-                            • 免費入門心靈魔術教材<br>
-                            • 免費會員線上講座 (價值$2100)<br>
-                            • 免費心靈聊天室直播<br>
-                            <span class="text-sm text-gray-400">(講座與聊天室每年最少各6場)</span>
-                        </p>
-                        <a href="#join" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">立即加入</a>
-                    </div>
-                    <div class="card p-8 text-center flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4">會員獨享</h3>
-                        <p class="flex-grow text-left">
-                           • 獨有實體會員徽章<br>
-                           • 專屬線上交流群組<br>
-                           • 共享學會專業資源<br>
-                           • 與各地同好建立連結
-                        </p>
-                         <a href="#join" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">成為會員</a>
-                    </div>
-                    <div class="card p-8 text-center flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4">年度盛會</h3>
+                        <h3 class="text-2xl font-bold text-white mb-4">線上講座回放</h3>
                         <p class="flex-grow">
-                            在年度最大的心靈魔術盛宴「心靈年度大會」中，會員獨家享有以「超級優惠價」購票入場的尊榮福利。
+                            所有會員專屬的線上心靈魔術講座、課程與聊天室，都可以在這裡找到完整的回放影片。
                         </p>
-                         <a href="#join" class="mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-6 rounded-lg transition-colors">了解更多</a>
+                        <a href="#" class="mt-6 btn-primary text-white font-bold py-2 px-6 rounded-lg">觀看回放</a>
+                    </div>
+                    <div class="card p-8 text-center flex flex-col">
+                        <h3 class="text-2xl font-bold text-white mb-4">心靈入門教材</h3>
+                        <p class="flex-grow">
+                           點擊下載學會精心編製的獨家心靈魔術入門教材、講義與腳本，開啟您的學習之旅。
+                        </p>
+                         <a href="#" class="mt-6 btn-primary text-white font-bold py-2 px-6 rounded-lg">下載教材</a>
+                    </div>
+                    <div class="card p-8 text-center flex flex-col">
+                        <h3 class="text-2xl font-bold text-white mb-4">會員資料與權益</h3>
+                        <p class="flex-grow">
+                            管理您的會員資料、查詢專屬徽章寄送進度，以及查看年度大會的會員優惠票券資訊。
+                        </p>
+                         <a href="#" class="mt-6 btn-primary text-white font-bold py-2 px-6 rounded-lg">查看我的權益</a>
                     </div>
                 </div>
-            </section>
-
-            <section id="instructors">
-                <h2 class="font-cinzel text-4xl font-bold text-glow text-center mb-12">黃金師資陣容</h2>
-                <div class="grid md:grid-cols-3 gap-10">
-                    <div class="text-center">
-                        <img src="https://placehold.co/150x150/1b2735/e0e0e0?text=HYT" class="w-40 h-40 rounded-full border-4 border-purple-500 mb-4 mx-auto" alt="講師黃鈺棠">
-                        <h4 class="text-2xl font-bold text-white">講師：黃鈺棠</h4>
-                        <p class="text-purple-300">心靈魔術實踐家</p>
-                    </div>
-                    <div class="text-center">
-                        <img src="https://placehold.co/150x150/1b2735/e0e0e0?text=CKW" class="w-40 h-40 rounded-full border-4 border-purple-500 mb-4 mx-auto" alt="講師鄭凱文">
-                        <h4 class="text-2xl font-bold text-white">講師：鄭凱文</h4>
-                        <p class="text-purple-300">潛意識療癒引導師</p>
-                    </div>
-                    <div class="text-center">
-                        <img src="https://placehold.co/150x150/1b2735/e0e0e0?text=LPH" class="w-40 h-40 rounded-full border-4 border-purple-500 mb-4 mx-auto" alt="講評人李柏翰">
-                        <h4 class="text-2xl font-bold text-white">講評人：李柏翰</h4>
-                        <p class="text-purple-300">心理學資深研究者</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="join">
-                <div class="card rounded-2xl p-12 text-center">
-                     <h2 class="font-cinzel text-4xl font-bold text-white text-glow mb-4">成為我們的一員</h2>
-                     <p class="text-lg text-purple-200 mb-8 max-w-2xl mx-auto">立即加入，您將獲得通往心靈深處的地圖與鑰匙。別再猶豫，您探索內在宇宙的旅程，就從這裡開始。</p>
-                     <a href="#" class="btn-primary text-white font-bold text-xl py-4 px-12 rounded-lg shadow-lg inline-block">立即申請入會</a>
-                </div>
-            </section>
+            </div>
         </div>
     </main>
 
@@ -213,10 +249,10 @@
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
         // =================================================================
-        // ⭐ 會員登入功能仍然保留，可用於未來擴充其他會員限定功能
+        // ⭐ 請在這裡設定有權限的會員 Google Email ⭐
         // =================================================================
         const authorizedUsers = [
-            "meantalee1089@gmail.com", 
+            "example1@gmail.com", 
             "your.email@gmail.com"
         ];
         // =================================================================
@@ -224,6 +260,13 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
+
+        // --- DOM Elements ---
+        const publicContent = document.getElementById('public-content');
+        const memberArea = document.getElementById('member-area');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const publicNav = document.getElementById('public-nav');
+        const mobilePublicNav = document.getElementById('mobile-public-nav');
 
         const navbar = document.getElementById('navbar');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -239,6 +282,7 @@
         const mobileUserName = document.getElementById('mobile-user-name');
         const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
 
+        // --- Event Listeners ---
         window.addEventListener('scroll', () => {
             navbar.classList.toggle('scrolled', window.scrollY > 50);
         });
@@ -267,20 +311,49 @@
         [loginBtn, mobileLoginBtn].forEach(btn => btn.addEventListener('click', handleLogin));
         [logoutBtn, mobileLogoutBtn].forEach(btn => btn.addEventListener('click', handleLogout));
 
+        // --- Auth State Logic ---
         onAuthStateChanged(auth, (user) => {
             const isLoggedIn = !!user;
-            
-            if (isLoggedIn) {
+            const isAuthorized = isLoggedIn && authorizedUsers.includes(user.email);
+
+            if (isAuthorized) {
+                // --- 授權會員登入，切換到會員介面 ---
+                publicContent.classList.add('hidden');
+                memberArea.classList.remove('hidden');
+                publicNav.classList.add('hidden'); 
+                mobilePublicNav.classList.add('hidden');
+                
+                welcomeMessage.textContent = `Welcome, ${user.displayName}`;
+                
                 [userAvatar.src, mobileUserAvatar.src] = [user.photoURL, user.photoURL];
                 [userName.textContent, mobileUserName.textContent] = [user.displayName, user.displayName];
+                loginBtn.classList.add('hidden');
+                mobileLoginBtn.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+                userInfo.classList.add('flex');
+                mobileUserInfo.classList.remove('hidden');
+                mobileUserInfo.classList.add('flex');
+
+            } else {
+                // --- 未登入或無權限，顯示公開介面 ---
+                publicContent.classList.remove('hidden');
+                memberArea.classList.add('hidden');
+                publicNav.classList.remove('hidden'); 
+                mobilePublicNav.classList.remove('hidden');
+
+                if (isLoggedIn && !isAuthorized) {
+                    alert("抱歉，您的帳號沒有瀏覽會員內容的權限。");
+                    handleLogout();
+                    return;
+                }
+
+                loginBtn.classList.remove('hidden');
+                mobileLoginBtn.classList.remove('hidden');
+                userInfo.classList.add('hidden');
+                userInfo.classList.remove('flex');
+                mobileUserInfo.classList.add('hidden');
+                mobileUserInfo.classList.remove('flex');
             }
-            
-            loginBtn.classList.toggle('hidden', isLoggedIn);
-            mobileLoginBtn.classList.toggle('hidden', isLoggedIn);
-            userInfo.classList.toggle('hidden', !isLoggedIn);
-            userInfo.classList.toggle('flex', isLoggedIn);
-            mobileUserInfo.classList.toggle('hidden', !isLoggedIn);
-            mobileUserInfo.classList.toggle('flex', isLoggedIn);
         });
     </script>
 </body>
