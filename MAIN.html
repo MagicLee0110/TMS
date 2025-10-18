@@ -51,7 +51,7 @@
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(138, 43, 226, 0.2);
         }
-        /* ⭐ 新增: 滾動淡入動畫樣式 */
+        /* 滾動淡入動畫樣式 */
         .fade-in-up {
             opacity: 0;
             transform: translateY(30px);
@@ -151,7 +151,9 @@
                     <h2 class="text-5xl font-bold text-glow text-center mb-12">會員專屬福利</h2>
                      <div class="grid md:grid-cols-3 gap-8">
                         <div class="card p-8 text-center flex flex-col">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mx-auto mb-6 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.55a2 2 0 01.95 1.7V17a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h7.55a2 2 0 011.7.95L15 10zM15 10H9.45a2 2 0 00-1.7.95L5 15" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mx-auto mb-6 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.55a2 2 0 01.95 1.7V17a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h7.55a2 2 0 011.7.95L15 10z" />
+                            </svg>
                             <h3 class="text-3xl font-bold text-white mb-4">教材與活動</h3>
                             <p class="flex-grow text-lg leading-relaxed text-left">
                                 • 免費入門心靈魔術教材<br>
@@ -370,7 +372,6 @@
             }
         });
 
-        // ⭐ 新增: 初始化星空背景
         particlesJS('particles-js', {
           particles: {
             number: { value: 80, density: { enable: true, value_area: 800 } },
@@ -389,7 +390,6 @@
           retina_detect: true
         });
 
-        // ⭐ 新增: 滾動動畫觸發
         const animatedElements = document.querySelectorAll('.fade-in-up');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
